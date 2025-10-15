@@ -13,6 +13,7 @@ if($login == 0){
 if(isset($_POST['buat'])){
     $siswa = post("nama");
     $nosu = post("nosu");
+    $newsekolah = post("newsekolah");
     $sql = mysqli_query($conn, "SELECT * FROM siswa WHERE nama='$siswa'");
     $data = mysqli_fetch_assoc($sql);
     
@@ -31,6 +32,7 @@ if(isset($_POST['buat'])){
       'alamat' => $data['alamat'],
       'nayah' => $data['n_ayah'],
       'pekerjaan' => $data['pekerjaan'],
+      'sekolahtujuan' => $newsekolah,
       'tglttd' => tanggal_indonesia(date('Y-m-d'))
     ];
     $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('data/TemplatePindah.docx');
@@ -108,6 +110,8 @@ if(isset($_POST['buat'])){
                       $sql = mysqli_query($conn, "SELECT * FROM suratpindah WHERE id='1'");
                       $data = mysqli_fetch_assoc($sql);
                     ?>
+                    <label class="form-label mt-3">Sekolah Tujuan</label>
+                    <input class="mt-3 form-control" name="newsekolah" type="text" placeholder="Sekolah Tujuan (Baru)">
                     <input class="mt-3 form-control" type="text" value="NO SURAT : <?= $data['nomor'] + 1?>/YPIA/SMPI Al-M/<?= $data['bulan']?>/<?= $data['tahun'] ?>" disabled>
                     <input type="hidden" name="nosu" value="<?= $data['nomor'] + 1?>">
                     <input class="mt-4 ps-4 pe-4 btn btn-pill btn-primary" type="submit" name="buat" value="Buat">
